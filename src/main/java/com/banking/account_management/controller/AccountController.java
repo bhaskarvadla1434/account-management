@@ -4,6 +4,7 @@ import com.banking.account_management.dto.AccountRequest;
 import com.banking.account_management.dto.AccountResponse;
 import com.banking.account_management.service.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,32 +24,48 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    // ✅ Create
-    @Operation(summary = "Create a new account", description = "Creates a new bank account for a user")
+    //  Create
+    @Operation(
+        summary = "Create a new account",
+        description = "Creates a new bank account for a user",
+        security = @SecurityRequirement(name = "bearerAuth")
+    )
     @PostMapping
     public ResponseEntity<AccountResponse> createAccount(@RequestBody AccountRequest request) {
         AccountResponse response = accountService.createAccount(request);
         return ResponseEntity.status(201).body(response);
     }
 
-    // ✅ Read by ID
-    @Operation(summary = "Get account by ID", description = "Fetch details of an account by its ID")
+    //  Read by ID
+    @Operation(
+        summary = "Get account by ID",
+        description = "Fetch details of an account by its ID",
+        security = @SecurityRequirement(name = "bearerAuth")
+    )
     @GetMapping("/{id}")
     public ResponseEntity<AccountResponse> getAccount(@PathVariable Long id) {
         AccountResponse response = accountService.getAccountById(id);
         return ResponseEntity.ok(response);
     }
 
-    // ✅ Read All
-    @Operation(summary = "Get all accounts", description = "Fetch a list of all accounts")
+    //  Read All
+    @Operation(
+        summary = "Get all accounts",
+        description = "Fetch a list of all accounts",
+        security = @SecurityRequirement(name = "bearerAuth")
+    )
     @GetMapping
     public ResponseEntity<List<AccountResponse>> getAllAccounts() {
         List<AccountResponse> response = accountService.getAllAccounts();
         return ResponseEntity.ok(response);
     }
 
-    // ✅ Update Entire Account
-    @Operation(summary = "Update account details", description = "Update account type, balance, or status")
+    //  Update Entire Account
+    @Operation(
+        summary = "Update account details",
+        description = "Update account type, balance, or status",
+        security = @SecurityRequirement(name = "bearerAuth")
+    )
     @PutMapping("/{id}")
     public ResponseEntity<AccountResponse> updateAccount(
             @PathVariable Long id,
@@ -57,8 +74,12 @@ public class AccountController {
         return ResponseEntity.ok(response);
     }
 
-    // ✅ Partial Update: Balance Only
-    @Operation(summary = "Update account balance", description = "Deposit or withdraw money from an account")
+    //  Partial Update: Balance Only
+    @Operation(
+        summary = "Update account balance",
+        description = "Deposit or withdraw money from an account",
+        security = @SecurityRequirement(name = "bearerAuth")
+    )
     @PutMapping("/{id}/balance")
     public ResponseEntity<AccountResponse> updateBalance(
             @PathVariable Long id,
@@ -67,8 +88,12 @@ public class AccountController {
         return ResponseEntity.ok(response);
     }
 
-    // ✅ Delete
-    @Operation(summary = "Delete account", description = "Delete an account by its ID")
+    //  Delete
+    @Operation(
+        summary = "Delete account",
+        description = "Delete an account by its ID",
+        security = @SecurityRequirement(name = "bearerAuth")
+    )
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAccount(@PathVariable Long id) {
         accountService.deleteAccount(id);
